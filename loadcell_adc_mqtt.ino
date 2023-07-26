@@ -21,23 +21,23 @@ float ExplanatoryVariable = 0.0026;    // 傾き
 const char *ssid = "your_ssid";
 const char *password = "your_pass";
 // Pub/Subの設定
-const char* mqttHost = "your_server";                  //ipアドレスかドメインで指定する
-const int mqttPort = 1883;                             //通常は1883か8883
+const char* mqttHost = "your_server";         //ipアドレスかドメインで指定する
+const int mqttPort = 1883;                    //通常は1883か8883
 // 送信トピック
-const char* topic = "your_topic";                      // 送信するトピック名（変更）
+const char* topic = "your_topic";             // 送信するトピック名（変更）
 
 
 // ピンの設定
 // 好ましくはないが実験的に使用
-#define DATA_PIN  21          // データ出力ピン
-#define CLK_PIN   22          // クロック入力ピン
+#define DATA_PIN  21                         // データ出力ピン
+#define CLK_PIN   22                         // クロック入力ピン
 // ボタン設定
 #define BtnA 39
 #define BtnB 38
 #define BtnC 37
 
 // 通信の間隔
-#define PUBLISH_INTERVAL 5    // 送信間隔を秒で指定
+#define PUBLISH_INTERVAL 5                  // 送信間隔を秒で指定
 
 
 // 割り込みフラグ
@@ -58,7 +58,7 @@ int convetToWeight(long AE_HX711_Value);  // ADCの出力値を重量に変換
 
 // ボタンが押されたときの動作
 void buttonInit();
-void buttonLoop();    // メインルーチンに置いておく必要があります
+void buttonLoop();                          // メインルーチンに置いておく必要があります
 void pushAbutton();
 void pushBbutton();
 void pushCbutton();
