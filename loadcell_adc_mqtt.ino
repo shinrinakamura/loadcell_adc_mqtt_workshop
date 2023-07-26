@@ -43,7 +43,7 @@ const char* topic = "your_topic";                      // 送信するトピッ�
 // 割り込みフラグ
 volatile bool timerflg = 0;
 // 画面の状態
-volatile int display_st = 99;             // 最初は必ず実行されるように
+volatile int display_st = 99;              // 最初は必ず実行されるように
 volatile float old_value = 0;              // 画面を変更させるために過去のデータを持たせる
 // 通信が確立しているかどうかのフラグ
 volatile bool communication_connect_flg = false;
