@@ -333,7 +333,7 @@ void connectWiFi(){
     i += 1;
     Serial.print(".");
     delay(1000);
-    //10秒間Wi-Fiが接続できないときは接続をやり直す
+    // 5秒間Wi-Fiが接続できないときは接続をやり直す
     if (i == 5){
       Serial.println("WiFi reset");
       connectWiFi();
