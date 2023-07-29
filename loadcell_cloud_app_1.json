@@ -1,0 +1,260 @@
+[
+    {
+        "id": "047269ae6578bd05",
+        "type": "mqtt in",
+        "z": "5e177ea8c3e355c7",
+        "name": "",
+        "topic": "",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "1a2033470bf6c89f"
+            ]
+        ]
+    },
+    {
+        "id": "1a2033470bf6c89f",
+        "type": "function",
+        "z": "5e177ea8c3e355c7",
+        "name": "extract and convert",
+        "func": "let codeValue = msg.payload.value\nconst ExplanatoryVariable = 0.0026\n\n// 重量に変換する\nlet weight = codeValue * ExplanatoryVariable\n\nmsg.payload ={\n    weight\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 100,
+        "wires": [
+            [
+                "7811d4fa9d92eb06",
+                "63a0cfd94fb2d62f"
+            ]
+        ]
+    },
+    {
+        "id": "5f73f512a92b16bc",
+        "type": "BloadcastMessage",
+        "z": "5e177ea8c3e355c7",
+        "name": "",
+        "x": 830,
+        "y": 200,
+        "wires": [
+            [
+                "6e0ab829381e99ce"
+            ]
+        ]
+    },
+    {
+        "id": "7811d4fa9d92eb06",
+        "type": "function",
+        "z": "5e177ea8c3e355c7",
+        "name": "発報アルゴリズム",
+        "func": "let weight = msg.payload.weight\nlet alarm_flg = false\n\nif (weight < 10){\n    alarm_flg = true\n}else{\n    \n}\n\nmsg.payload = {\n    alarm_flg\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 220,
+        "wires": [
+            [
+                "a4f0eb227ebdce15"
+            ]
+        ]
+    },
+    {
+        "id": "a4f0eb227ebdce15",
+        "type": "switch",
+        "z": "5e177ea8c3e355c7",
+        "name": "",
+        "property": "payload.alarm_flg",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 430,
+        "y": 220,
+        "wires": [
+            [
+                "c1034e47b7d254a4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c1034e47b7d254a4",
+        "type": "function",
+        "z": "5e177ea8c3e355c7",
+        "name": "送信する文脈",
+        "func": "msg.payload = \"重量が下回りました\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "5f73f512a92b16bc"
+            ]
+        ]
+    },
+    {
+        "id": "6e0ab829381e99ce",
+        "type": "debug",
+        "z": "5e177ea8c3e355c7",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "4e96931bdf94b015",
+        "type": "ui_gauge",
+        "z": "5e177ea8c3e355c7",
+        "name": "",
+        "group": "1718304483ba19b6",
+        "order": 1,
+        "width": 12,
+        "height": 9,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "2000",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 870,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "63a0cfd94fb2d62f",
+        "type": "change",
+        "z": "5e177ea8c3e355c7",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.weight",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 100,
+        "wires": [
+            [
+                "4e96931bdf94b015",
+                "3b035708dee13ced"
+            ]
+        ]
+    },
+    {
+        "id": "3b035708dee13ced",
+        "type": "ui_chart",
+        "z": "5e177ea8c3e355c7",
+        "name": "",
+        "group": "1718304483ba19b6",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 870,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1718304483ba19b6",
+        "type": "ui_group",
+        "name": "weight",
+        "tab": "f19408ccbcdfe633",
+        "order": 1,
+        "disp": true,
+        "width": 12,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f19408ccbcdfe633",
+        "type": "ui_tab",
+        "name": "weight",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
