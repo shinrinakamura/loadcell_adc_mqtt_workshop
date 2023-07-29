@@ -100,7 +100,7 @@ void setup() {
 }
 
 void loop() {
-    
+  
   buttonLoop();
 
   // タイマーの作成
