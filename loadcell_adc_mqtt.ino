@@ -31,10 +31,6 @@ const char* topic = "your_topic";             // 送信するトピック名（�
 // 好ましくはないが実験的に使用
 #define DATA_PIN  21                         // データ出力ピン
 #define CLK_PIN   22                         // クロック入力ピン
-// ボタン設定
-#define BtnA 39
-#define BtnB 38
-#define BtnC 37
 
 // 通信の間隔
 #define PUBLISH_INTERVAL 5                  // 送信間隔を秒で指定
@@ -57,7 +53,6 @@ long AE_HX711_Averaging(char num);        // ばらつきを抑えるため平�
 int convetToWeight(long AE_HX711_Value);  // ADCの出力値を重量に変換
 
 // ボタンが押されたときの動作
-void buttonInit();
 void buttonLoop();                          // メインルーチンに置いておく必要があります
 void pushAbutton();
 void pushBbutton();
@@ -85,9 +80,6 @@ void setup() {
   
   Serial.begin(115200);
   Serial.println("system start");
-
-  // ボタンの初期化
-  buttonInit();
   
   // 立ち上がり画面の作成
   initScreen();
@@ -107,8 +99,8 @@ void setup() {
   Serial.printf("offset raw value : %ld\n\n", offset_raw);
 }
 
-void loop() { 
-  
+void loop() {
+    
   buttonLoop();
 
   // タイマーの作成
@@ -267,28 +259,20 @@ void indicateMeasureValue(int *measureValue){
   M5.Lcd.drawFastHLine(0, 185, 320, WHITE);
 }
 
-
-// ボタンの動作----------------------------------------------------
-// ボタン初期化
-void buttonInit(){
-
-  pinMode(BtnA, INPUT);
-  pinMode(BtnB, INPUT);
-  pinMode(BtnC, INPUT);
-}
-
 // ボタンが押されたときの処理
 void buttonLoop(){
-  
-  if(digitalRead(BtnA) == LOW){
+
+  M5.update();
+
+  if(M5.BtnA.wasPressed()){
     delay(500);   // チャタリング防止
     Serial.println("button A pushed");
     pushAbutton();
-  }else if(digitalRead(BtnB) == LOW){
+  }else if(M5.BtnB.wasPressed()){
     delay(500);   // チャタリング防止
     Serial.println("button B pushed");
     pushBbutton();
-  }else if(digitalRead(BtnC) == LOW){
+  }else if(M5.BtnC.wasPressed()){
     delay(500);   // チャタリング防止
     Serial.println("button C pushed");
     pushCbutton();
